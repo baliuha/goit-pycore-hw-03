@@ -1,8 +1,5 @@
 import re
 
-EMPTY_STRING = ""
-PLUS_SIGN = "+"
-PHONE_REGEX = re.compile(r"[^\d+]|(?<=.)\+")  # matches any char that is not a digit or + at the start
 
 """
     Normalize phone number to the format +380XXXXXXXXX
@@ -12,12 +9,13 @@ PHONE_REGEX = re.compile(r"[^\d+]|(?<=.)\+")  # matches any char that is not a d
         str: normalized phone number in the format +380XXXXXXXXX
 """
 def normalize_phone(phone_number: str) -> str:
-    normalized = re.sub(PHONE_REGEX, EMPTY_STRING, phone_number)
+    # matches any char that is not a digit or + at the start
+    normalized = re.sub(r"[^\d+]|(?<=.)\+", "", phone_number) 
 
-    if normalized.startswith(PLUS_SIGN):
+    if normalized.startswith("+"):
         return normalized
     else:
-        return PLUS_SIGN + normalized if normalized.startswith('380') else '+38' + normalized
+        return "+" + normalized if normalized.startswith('380') else '+38' + normalized
 
 input_data = [
     "067\\t123 4567",
